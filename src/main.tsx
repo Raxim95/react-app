@@ -10,29 +10,35 @@ import {
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import Characters, { loader as charactersLoader } from "./routes/Characters";
-import Character, { loader as characterLoader } from "./routes/Character";
-import Root from "./routes/root";
+import Root, {
+  loader as rootLoader,
+  action as rootAction,
+} from "./routes/root";
 import ErrorPage from "./error-page";
-import Episodes from "./routes/Episodes";
+
+import Public from "./routes/Public";
+
+import Protected, {
+  loader as proLoader,
+  action as loginAction,
+} from "./routes/Protected";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route>
-      <Route path="/" element={<Root />} errorElement={<ErrorPage />}></Route>
+    <Route
+      path="/"
+      element={<Root />}
+      errorElement={<ErrorPage />}
+      loader={rootLoader}
+      action={rootAction}
+    >
+      <Route path="public" element={<Public />}></Route>
       <Route
-        path="characters"
-        element={<Characters />}
-        loader={charactersLoader}
+        path="protected"
+        element={<Protected />}
+        loader={proLoader}
+        action={loginAction}
       ></Route>
-
-      <Route
-        path="characters/:characterName"
-        element={<Character />}
-        loader={characterLoader}
-      ></Route>
-
-      <Route path="episodes" element={<Episodes />}></Route>
     </Route>
   )
 );
