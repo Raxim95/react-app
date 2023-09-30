@@ -1,36 +1,44 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
+import {
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+} from "react-router-dom";
+
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Col, Nav, Row, Tab } from "react-bootstrap";
-import Task1 from "./routes/Task1/Task1";
-import Task2 from "./routes/Task2/Task2";
+
+import Characters, { loader as charactersLoader } from "./routes/Characters";
+import Character, { loader as characterLoader } from "./routes/Character";
+import Root from "./routes/root";
+import ErrorPage from "./error-page";
+import Episodes from "./routes/Episodes";
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route>
+      <Route path="/" element={<Root />} errorElement={<ErrorPage />}></Route>
+      <Route
+        path="characters"
+        element={<Characters />}
+        loader={charactersLoader}
+      ></Route>
+
+      <Route
+        path="characters/:characterName"
+        element={<Character />}
+        loader={characterLoader}
+      ></Route>
+
+      <Route path="episodes" element={<Episodes />}></Route>
+    </Route>
+  )
+);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-      <Row className="p-4">
-        <Col sm={3}>
-          <Nav variant="pills" className="flex-column">
-            <Nav.Item>
-              <Nav.Link eventKey="first">Task 1</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="second">Task 2</Nav.Link>
-            </Nav.Item>
-          </Nav>
-        </Col>
-        <Col sm={9}>
-          <Tab.Content>
-            <Tab.Pane eventKey="first">
-              <Task1 />
-            </Tab.Pane>
-            <Tab.Pane eventKey="second">
-              <Task2 />
-            </Tab.Pane>
-          </Tab.Content>
-        </Col>
-      </Row>
-    </Tab.Container>
+    <RouterProvider router={router}></RouterProvider>
   </React.StrictMode>
 );

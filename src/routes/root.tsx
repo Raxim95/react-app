@@ -1,38 +1,25 @@
-import { Outlet, Link, Navigate, useNavigate } from "react-router-dom";
-import useOnlineStatus from "../services.tsx/useOnlineStatus";
-import { Col, ListGroup, Row } from "react-bootstrap";
+import { Link, Outlet } from "react-router-dom";
+import { Button, Stack } from "react-bootstrap";
 
-const tasks = ["Task1", "Task2", "Task3"];
+import useOnlineStatus from "../services.tsx/useOnlineStatus";
+import useLoadingStyle from "../services.tsx/useLoadingStyle";
 
 export default function Root() {
+  const loadingStyle = useLoadingStyle();
+
   const isOnline = useOnlineStatus();
-  const navigate = useNavigate();
 
   if (!isOnline) return <h1>You are OFFLINE</h1>;
 
   return (
-    <div className="p-4">
-      <Row>
-        <Col lg={3}>
-          <nav>
-            <ListGroup>
-              {tasks.map((task, index) => (
-                <ListGroup.Item
-                  key={index + 1}
-                  action
-                  onClick={() => navigate(`task${index + 1}`)}
-                >
-                  {task}
-                  {/* <Link to={`task${index + 1}`}>{task}</Link> */}
-                </ListGroup.Item>
-              ))}
-            </ListGroup>
-          </nav>
-        </Col>
-        <Col lg={9}>
-          <Outlet></Outlet>
-        </Col>
-      </Row>
-    </div>
+    <Stack gap={2} className="p-4" style={loadingStyle}>
+      <Link to="characters">
+        <Button className="w-100">Characters</Button>
+      </Link>
+      <Link to="episodes">
+        <Button className="w-100">Episodes</Button>
+      </Link>
+      <Outlet></Outlet>
+    </Stack>
   );
 }
