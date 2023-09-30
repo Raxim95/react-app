@@ -2,7 +2,7 @@ function Contact() {
   return (
     <div
       style={{ height: "75vh" }}
-      className="bg-success d-flex justify-content-center align-items-center text-light fs-1"
+      className="bg-success d-flex justify-content-center align-items-center text-light fs-1 rounded"
     >
       Contact
     </div>
