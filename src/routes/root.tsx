@@ -1,44 +1,39 @@
-import { Outlet, Link, Form, useLoaderData } from "react-router-dom";
+import { Outlet, NavLink } from "react-router-dom";
 import useOnlineStatus from "../services.tsx/useOnlineStatus";
-import { isLoggedIn, setLogin } from "./Service";
-import { Button, Stack } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 
-export async function loader() {
-  return isLoggedIn();
-}
-
-export async function action() {
-  setLogin(false);
-  return null;
-}
+const routes = ["/", "about", "contact"];
 
 export default function Root() {
-  const isLoggedIn = useLoaderData();
   const isOnline = useOnlineStatus();
 
   if (!isOnline) return <h1>You are OFFLINE</h1>;
 
-  let section: React.ReactElement;
-
-  if (isLoggedIn) {
-    section = (
-      <div>
-        <p>Sistemadan shıǵıw</p>
-        <Form method="post">
-          <Button type="submit">Log out</Button>
-        </Form>
-      </div>
-    );
-  } else {
-    section = <p>Iltimas dizimnen ótiń</p>;
-  }
-
   return (
-    <Stack gap={3} className="p-4">
-      {section}
-      <Link to="public">public</Link>
-      <Link to="protected">protected</Link>
-      <Outlet></Outlet>
-    </Stack>
+    <div className="p-4">
+      <Container className="w-50">
+        <div className="d-flex gap-2 mb-4 border bg-light p-2 rounded">
+          {routes.map((to, i) => {
+            return (
+              <NavLink
+                key={i}
+                to={to}
+                style={{ textTransform: "uppercase", textDecoration: "none" }}
+                className={({ isActive, isPending }) =>
+                  isActive
+                    ? "btn btn-primary w-100"
+                    : isPending
+                    ? "bg-secondary"
+                    : "btn bg-white border w-100"
+                }
+              >
+                {to === "/" ? "home" : to}
+              </NavLink>
+            );
+          })}
+        </div>
+        <Outlet></Outlet>
+      </Container>
+    </div>
   );
 }
