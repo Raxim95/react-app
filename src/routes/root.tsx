@@ -1,39 +1,35 @@
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, useLoaderData } from "react-router-dom";
 import useOnlineStatus from "../services.tsx/useOnlineStatus";
-import { Container } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 
-const routes = ["/", "about", "contact"];
+import Header from "./Header";
+import Sidebar from "./Sidebar";
+import { getUsers } from "../services.tsx/services";
+import UserType from "../Types/UserType";
+
+export async function loader() {
+  const users = await getUsers();
+  return users;
+}
 
 export default function Root() {
   const isOnline = useOnlineStatus();
 
+  const users = useLoaderData() as UserType[];
+
   if (!isOnline) return <h1>You are OFFLINE</h1>;
 
   return (
-    <div className="p-4">
-      <Container className="w-50">
-        <div className="d-flex gap-2 mb-4 border bg-light p-2 rounded">
-          {routes.map((to, i) => {
-            return (
-              <NavLink
-                key={i}
-                to={to}
-                style={{ textTransform: "uppercase", textDecoration: "none" }}
-                className={({ isActive, isPending }) =>
-                  isActive
-                    ? "btn btn-primary w-100"
-                    : isPending
-                    ? "bg-secondary"
-                    : "btn bg-white border w-100"
-                }
-              >
-                {to === "/" ? "home" : to}
-              </NavLink>
-            );
-          })}
-        </div>
-        <Outlet></Outlet>
-      </Container>
-    </div>
+    <>
+      <Header></Header>
+      <Row>
+        <Col md={4} lg={3}>
+          <Sidebar users={users}></Sidebar>
+        </Col>
+        <Col md={8} lg={9}>
+          <Outlet className="main"></Outlet>
+        </Col>
+      </Row>
+    </>
   );
 }

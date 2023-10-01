@@ -1,12 +1,5 @@
 function Home() {
-  return (
-    <div
-      style={{ height: "75vh" }}
-      className="bg-danger d-flex justify-content-center align-items-center text-light fs-1 rounded"
-    >
-      Home
-    </div>
-  );
+  return <h1>Home</h1>;
 }
 
 export default Home;
