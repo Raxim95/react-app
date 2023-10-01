@@ -1,10 +1,16 @@
 import { Link, UIMatch, useMatches } from "react-router-dom";
 
+interface IMatch extends UIMatch {
+  handle: {
+    crumb: (param?: string) => React.ReactNode;
+  };
+}
+
 function Breadcrumbs() {
-  let matches = useMatches() as UIMatch[];
+  let matches = useMatches() as IMatch[];
   let crumbs = matches
     .filter((match) => Boolean(match.handle?.crumb))
-    .map((match) => match.handle.crumb(match.data));
+    .map((match) => match.handle.crumb(match.data as string));
 
   return (
     <>
