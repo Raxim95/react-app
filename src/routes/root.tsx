@@ -1,11 +1,11 @@
-import { Col, Row } from "react-bootstrap";
 import { Outlet, useLoaderData } from "react-router-dom";
 import useOnlineStatus from "../services.tsx/useOnlineStatus";
+import { Col, Container, Row } from "react-bootstrap";
 
-import UserType from "../Types/UserType";
-import { getUsers } from "../services.tsx/services";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import { getUsers } from "../services.tsx/services";
+import UserType from "../Types/UserType";
 
 export async function loader() {
   const users = await getUsers();
@@ -27,7 +27,7 @@ export default function Root() {
           <Sidebar users={users}></Sidebar>
         </Col>
         <Col md={8} lg={9}>
-          <Outlet></Outlet>
+          <Outlet className="main"></Outlet>
         </Col>
       </Row>
     </>
