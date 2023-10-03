@@ -1,19 +1,19 @@
 import { Button, Col, InputGroup, ListGroup, Row } from "react-bootstrap";
 import PizzaType from "../types/PizzaType";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { useState } from "react";
+import { useAppDispatch } from "../redux/hooks";
+import { update } from "../redux/slices/currentOrderSlice";
 
-function MakeOrder({ pizza }: { pizza: PizzaType }) {
-  const [count, setCount] = useState(0);
-
-  const currentOrder = useAppSelector((state) => state.currentOrder.value);
+function MakeOrder({ pizza, count }: { pizza: PizzaType; count: number }) {
   const dispatch = useAppDispatch();
 
-  const decrease = () => {
-    setCount((prev) => prev + 1);
-  };
-  const increase = () => {
-    setCount((prev) => prev + 1);
+  const handleClick = (amount: number) => {
+    const newSingleOrder = {
+      id: pizza.id,
+      price: pizza.price,
+      count: count + amount,
+    };
+    console.log(newSingleOrder);
+    dispatch(update(newSingleOrder));
   };
 
   return (
@@ -26,7 +26,7 @@ function MakeOrder({ pizza }: { pizza: PizzaType }) {
         </Col>
         <Col>
           <InputGroup className="flex justify-content-end ">
-            <Button variant="danger" onClick={decrease}>
+            <Button variant="danger" onClick={() => handleClick(-1)}>
               -
             </Button>
             <span
@@ -35,7 +35,7 @@ function MakeOrder({ pizza }: { pizza: PizzaType }) {
             >
               {count}
             </span>
-            <Button variant="success" onClick={increase}>
+            <Button variant="success" onClick={() => handleClick(1)}>
               +
             </Button>
           </InputGroup>

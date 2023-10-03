@@ -1,4 +1,5 @@
 type SingleOrderType = {
-  pizzaId: string;
+  id: string;
+  price: number;
   count: number;
 };
