@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getRandomToken, setCurrentConfigOrder } from "./utils";
 
 interface ConfigOrderState {
   items: SingleOrderType[];
