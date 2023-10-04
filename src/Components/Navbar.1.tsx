@@ -1,6 +1,6 @@
-import React from "react";
+import { Nav, Navbar } from "react-bootstrap";
 
-export function Navbar() {
+export function MyNavbar() {
   return (
     <Navbar className="bg-dark">
       <Nav>
