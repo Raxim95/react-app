@@ -1,11 +1,30 @@
 import React from "react";
+import { useState } from "react";
 import { Button, Form, FormGroup } from "react-bootstrap";
+import { useAppDispatch } from "../../redux/hooks";
+import { reset } from "../../redux/slices/currentOrderSlice";
 
 function CheckOutForm() {
+  const [couponChecked, setCouponChecked] = useState<boolean>(false);
+
+  const dispatch = useAppDispatch();
+
+  const couponHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    setCouponChecked(target.checked);
+  };
+
+  const submitHandler = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch(reset());
+    alert("Submitted");
+  };
+
   return (
     <Form
       className="d-flex flex-column gap-4"
       style={{ marginBottom: "100px" }}
+      onSubmit={submitHandler}
     >
       <FormGroup className="d-flex gap-5">
         <Form.Label>Name</Form.Label>
@@ -19,7 +38,7 @@ function CheckOutForm() {
         <Form.Label className="w-50">Choose delivery method</Form.Label>
         <Form.Select>
           <option>Delivery</option>
-          <option>Delivery 2</option>
+          <option>Local pickup</option>
         </Form.Select>
       </FormGroup>
       <FormGroup className="d-flex gap-5">
@@ -41,11 +60,14 @@ function CheckOutForm() {
       </FormGroup>
       <FormGroup className="d-flex gap-5">
         <Form.Label>Do yuo have a cupon code?</Form.Label>
-        <Form.Check label="" />
+        <Form.Check onChange={couponHandler} />
       </FormGroup>
       <FormGroup className="d-flex gap-5">
         <Form.Label>Coupon</Form.Label>
-        <Form.Control></Form.Control>
+        <Form.Control
+          disabled={!couponChecked}
+          placeholder="Coupon"
+        ></Form.Control>
       </FormGroup>
       <FormGroup className="d-flex gap-3 justify-content-end ">
         <Button variant="secondary" type="reset">

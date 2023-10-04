@@ -1,23 +1,36 @@
 import { Button, ListGroup } from "react-bootstrap";
-import MakeOrder from "./MakeOrder";
 import pizzasData from "../data/pizzasData";
-import PizzaType from "../types/PizzaType";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { findItemById } from "../redux/slices/utils";
 import { reset } from "../redux/slices/currentOrderSlice";
 import { useState } from "react";
 import CheckOutModal from "./CheckOutModal";
+import MakeOrderCon from "./OrderedPizzaImages";
+import LoadModal from "./LoadModal";
+import { setCurrentConfigOrder } from "../redux/slices/utils";
 
 function OrderCon() {
-  const items = useAppSelector((state) => state.currentOrder.items);
-  const total = useAppSelector((state) => state.currentOrder.total);
-
   const dispatch = useAppDispatch();
 
-  const [show, setShow] = useState(false);
+  const items = useAppSelector((state) => state.currentOrder.items);
+  // const configItems = useAppSelector((state) => state.configOrder.items);
 
+  const total = useAppSelector((state) => state.currentOrder.total);
+
+  const currentToken = useAppSelector((state) => state.configOrder.current);
+
+  // CheckOutModal
+  const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  // LoadModal
+  const [showload, setShowLoad] = useState(false);
+  const handleLoadClose = () => setShowLoad(false);
+  const handleLoadShow = () => setShowLoad(true);
+
+  const saveHandler = () => {
+    setCurrentConfigOrder(items);
+  };
 
   return (
     <>
@@ -38,32 +51,43 @@ function OrderCon() {
         </div>
       </div>
       <div className="my-4">
-        <ListGroup style={{ width: "fit-content" }}>
-          {pizzasData.map((pizza, i) => {
-            const item = findItemById(pizza.id, items);
-            return (
-              <MakeOrder
-                key={i}
-                pizza={pizza as PizzaType}
-                count={item ? item.count : 0}
-              ></MakeOrder>
-            );
-          })}
+        <ListGroup className="mx-auto" style={{ width: "fit-content" }}>
+          <MakeOrderCon pizzasData={pizzasData} items={items}></MakeOrderCon>
           <ListGroup.Item className="bg-light p-3 ">
             Total <span className="fw-bold float-end ">{total} $</span>
           </ListGroup.Item>
+          {/* Save, Load, Checkout */}
           <ListGroup.Item className="p-3 ">
-            <Button variant="success">Save Pizza</Button>
-            <Button className="float-end" onClick={handleShow}>
+            <Button disabled={!total} variant="success" onClick={saveHandler}>
+              Save Pizza
+            </Button>
+            <Button
+              disabled={!total}
+              className="float-end"
+              onClick={handleShow}
+            >
               Check out
             </Button>
           </ListGroup.Item>
           <ListGroup.Item className="p-3 ">
-            <Button variant="dark">Load pizza</Button>
+            <Button variant="dark" onClick={handleLoadShow}>
+              Load pizza
+            </Button>
           </ListGroup.Item>
         </ListGroup>
+        {currentToken ? (
+          <p className="my-4 text-success text-center">
+            Your pizza configuration has been saved. Your number is{" "}
+            <b>{currentToken}</b>
+          </p>
+        ) : (
+          <p className="my-4 text-danger text-center">
+            Your pizza configuration has not been saved.
+          </p>
+        )}
       </div>
       <CheckOutModal show={show} handleClose={handleClose}></CheckOutModal>
+      <LoadModal show={showload} handleClose={handleLoadClose}></LoadModal>
     </>
   );
 }

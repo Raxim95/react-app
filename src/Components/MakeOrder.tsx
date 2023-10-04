@@ -29,7 +29,7 @@ function MakeOrder({ pizza, count }: { pizza: PizzaType; count: number }) {
               -
             </Button>
             <span
-              className="d-flex align-items-center justify-content-center"
+              className="d-flex align-items-center justify-content-center bg-light"
               style={{ width: "50px" }}
             >
               {count}

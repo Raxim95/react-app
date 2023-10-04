@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { calcTotal, removeItemById } from "./utils";
-import { RootState } from "../store";
 
 interface CurrentOrderState {
   items: SingleOrderType[];
@@ -20,8 +19,10 @@ export const currentOrderSlice = createSlice({
       const { id, count } = action.payload;
 
       if (count < 0) return;
+
       if (count === 0) {
         state.items = removeItemById(id, state.items);
+        state.total = calcTotal(state.items);
         return;
       }
 
@@ -39,8 +40,12 @@ export const currentOrderSlice = createSlice({
       state.items = [];
       state.total = 0;
     },
+    setItems: (state, action) => {
+      state.items = action.payload;
+      state.total = calcTotal(state.items);
+    },
   },
 });
 
-export const { update, reset } = currentOrderSlice.actions;
+export const { update, reset, setItems } = currentOrderSlice.actions;
 export default currentOrderSlice.reducer;
