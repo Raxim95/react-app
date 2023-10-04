@@ -5,12 +5,19 @@ import PizzaType from "../types/PizzaType";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { findItemById } from "../redux/slices/utils";
 import { reset } from "../redux/slices/currentOrderSlice";
+import { useState } from "react";
+import CheckOutModal from "./CheckOutModal";
 
 function OrderCon() {
   const items = useAppSelector((state) => state.currentOrder.items);
   const total = useAppSelector((state) => state.currentOrder.total);
 
   const dispatch = useAppDispatch();
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   return (
     <>
@@ -47,13 +54,16 @@ function OrderCon() {
           </ListGroup.Item>
           <ListGroup.Item className="p-3 ">
             <Button variant="success">Save Pizza</Button>
-            <Button className="float-end">Check out</Button>
+            <Button className="float-end" onClick={handleShow}>
+              Check out
+            </Button>
           </ListGroup.Item>
           <ListGroup.Item className="p-3 ">
             <Button variant="dark">Load pizza</Button>
           </ListGroup.Item>
         </ListGroup>
       </div>
+      <CheckOutModal show={show} handleClose={handleClose}></CheckOutModal>
     </>
   );
 }

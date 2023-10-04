@@ -108,8 +108,8 @@ let pizzasData = [
     price: 84,
   },
   {
-    calories: "",
-    carbos: "",
+    calories: "90 kcal",
+    carbos: "90 g",
     description:
       "‘Allo Genovese’ simply means ‘in the style of Genoa’, which is the northern Italian city famous for the pesto that you’ll be making tonight. ‘Pesto’ actually comes from the word ‘pestare’, which means to pound or crush, referring to the old fashioned method of making it in a pestle & mortar. If you happen to have a food processor, you can whizz the pesto together in that, or alternatively just chop, chop, chop everything until it is tiny. Andiamo! ",
     difficulty: 0,
@@ -123,7 +123,7 @@ let pizzasData = [
     thumb:
       "https://img.hellofresh.com/f_auto,q_auto,w_300/hellofresh_s3/image/53314343ff604d28828b456c.jpg",
     time: "PT25M",
-    price: null,
+    price: 90,
   },
   {
     calories: "790 kcal",

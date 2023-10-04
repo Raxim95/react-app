@@ -12,7 +12,6 @@ function MakeOrder({ pizza, count }: { pizza: PizzaType; count: number }) {
       price: pizza.price,
       count: count + amount,
     };
-    console.log(newSingleOrder);
     dispatch(update(newSingleOrder));
   };
 
