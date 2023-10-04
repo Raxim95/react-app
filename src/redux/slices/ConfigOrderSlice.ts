@@ -1,13 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getRandomToken } from "./utils";
 
 interface ConfigOrderState {
-  items: SingleOrderType[];
-  current: string;
+  token: string;
 }
 
 const initialState: ConfigOrderState = {
-  items: [],
-  current: "",
+  token: "",
 };
 
 export const configOrderSlice = createSlice({
@@ -15,18 +14,27 @@ export const configOrderSlice = createSlice({
   initialState,
   reducers: {
     update: (state, action) => {
-      state.current = action.payload.token;
+      state.token = action.payload.token;
     },
-    reset: (state) => {
-      state.items = [];
-      state.current = "";
+    save: (state, action) => {
+      const token = getRandomToken();
+      const items = action.payload;
+
+      localStorage.setItem(token, JSON.stringify(items));
+      state.token = token;
+
+      console.log("TOKEN: ", token);
+      console.log("ITEMS: ", items);
     },
     load: (state, action) => {
       const { token } = action.payload;
-      state.current = token;
+      state.token = token;
+    },
+    reset: (state) => {
+      state.token = "";
     },
   },
 });
 
-export const { reset, update, load } = configOrderSlice.actions;
+export const { reset, update, save, load } = configOrderSlice.actions;
 export default configOrderSlice.reducer;

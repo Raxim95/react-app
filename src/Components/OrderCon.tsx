@@ -6,7 +6,7 @@ import { useState } from "react";
 import CheckOutModal from "./CheckOutModal";
 import MakeOrderCon from "./OrderedPizzaImages";
 import LoadModal from "./LoadModal";
-import { setCurrentConfigOrder } from "../redux/slices/utils";
+import { save } from "../redux/slices/ConfigOrderSlice";
 
 function OrderCon() {
   const dispatch = useAppDispatch();
@@ -16,7 +16,7 @@ function OrderCon() {
 
   const total = useAppSelector((state) => state.currentOrder.total);
 
-  const currentToken = useAppSelector((state) => state.configOrder.current);
+  const currentToken = useAppSelector((state) => state.configOrder.token);
 
   // CheckOutModal
   const [show, setShow] = useState(false);
@@ -29,7 +29,8 @@ function OrderCon() {
   const handleLoadShow = () => setShowLoad(true);
 
   const saveHandler = () => {
-    setCurrentConfigOrder(items);
+    // setCurrentConfigOrder(items);
+    dispatch(save(items));
   };
 
   return (

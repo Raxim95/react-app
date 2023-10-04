@@ -21,15 +21,6 @@ export const getRandomToken = () => {
   return rand() + rand();
 };
 
-export const setCurrentConfigOrder = (items: SingleOrderType[]) => {
-  const token = getRandomToken();
-  localStorage.setItem(token, JSON.stringify(items));
-  console.log("TOKEN: ", token);
-  console.log("ITEMS: ", JSON.stringify(items));
-
-  return token;
-};
-
 export const getCurrentConfigOrder = (token: string) => {
   const itemsJson = localStorage.getItem(token) || "";
 

@@ -12,6 +12,7 @@ type props = {
 
 function LoadModal({ show, handleClose }: props) {
   const dispatch = useAppDispatch();
+
   const inputRef = React.createRef<HTMLInputElement>();
 
   const submitHandler = () => {
@@ -20,9 +21,13 @@ function LoadModal({ show, handleClose }: props) {
       alert("Input filed is empty.");
       return;
     }
+
     const items = getCurrentConfigOrder(token);
+
     dispatch(setItems(items));
+
     dispatch(update({ token: token }));
+
     handleClose();
   };
 
