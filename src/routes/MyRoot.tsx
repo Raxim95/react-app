@@ -5,7 +5,7 @@ import { useAppSelector } from "../redux/hooks";
 import pizzasMap from "../data/pizzasMap";
 import MyNavbar from "../Components/MyNavbar";
 
-function Root() {
+function MyRoot() {
   const items = useAppSelector((state) => state.currentOrder.items);
 
   return (
@@ -41,4 +41,4 @@ function Root() {
   );
 }
 
-export default Root;
+export default MyRoot;
