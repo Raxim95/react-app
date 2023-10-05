@@ -10,12 +10,17 @@ import {
 
 import App from "./App";
 import CheckOutRoot from "./routes/CheckOut/CheckOut";
+import ErrorPage from "./error-page";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
-      <Route path="/" element={<App />}></Route>
-      <Route path="checkout" element={<CheckOutRoot />}></Route>
+      <Route path="/" errorElement={<ErrorPage />} element={<App />}></Route>
+      <Route
+        path="checkout"
+        errorElement={<ErrorPage />}
+        element={<CheckOutRoot />}
+      ></Route>
     </Route>
   )
 );

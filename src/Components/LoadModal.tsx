@@ -16,7 +16,8 @@ function LoadModal({ show, handleClose }: props) {
   const inputRef = React.createRef<HTMLInputElement>();
 
   const submitHandler = () => {
-    const token: string = inputRef.current?.value || "";
+    let token: string = inputRef.current?.value || "";
+    token = token.trim();
     if (token === "") {
       alert("Input filed is empty.");
       return;

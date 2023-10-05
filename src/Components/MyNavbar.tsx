@@ -8,7 +8,7 @@ function MyNavbar() {
         <Link to="/" className="text-decoration-none text-secondary">
           Build your pizza
         </Link>
-        <Link to="" className="text-light">
+        <Link to="" className="text-decoration-none text-light">
           Ingredients
         </Link>
       </Nav>
